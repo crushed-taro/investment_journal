@@ -4,12 +4,17 @@ import { useLog } from "../../components/context/LogContext";
 export default function Register() {
 
     const log = useLog();
-    const [ form, setForm ] = useState();
+    const [ form, setForm ] = useState({
+        Name: "",
+        Id: "",
+        Password: "",
+        confirmPassword: ""
+    });
     const [ isPasswordMatch, setIsPasswordMatch ] = useState(false);
 
     useEffect(() => {
         setIsPasswordMatch(form.Password === form.confirmPassword);
-    }, [form.password, form.confirmPassword]);
+    }, [form.Password, form.confirmPassword]);
 
     const onChangeHandler = (e) => {
         setForm({
