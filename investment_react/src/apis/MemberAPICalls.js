@@ -1,4 +1,4 @@
-
+import { POST_REGISTER } from "../modules/MemberModule";
 
 export const callRegisterAPI = ({ form }) => {
     const requestURL = process.env.REACT_APP_API_REGISTER_URL;
@@ -11,10 +11,9 @@ export const callRegisterAPI = ({ form }) => {
                 Accept: '*/*',
             },
             body: JSON.stringify({
-                user: {
-                    email: form.Id,
-                    password: form.Password,
-                }
+                memberName: form.Name,
+                memberId: form.Id,
+                memberPassword: form.Password,
             }),
         }).then((response) => response.json());
 

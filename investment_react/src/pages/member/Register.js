@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLog } from "../../components/context/LogContext";
+import { useDispatch } from "react-redux";
+
+import { callRegisterAPI } from "../../apis/MemberAPICalls";
 
 export default function Register() {
 
@@ -11,6 +14,7 @@ export default function Register() {
         confirmPassword: ""
     });
     const [ isPasswordMatch, setIsPasswordMatch ] = useState(false);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setIsPasswordMatch(form.Password === form.confirmPassword);
@@ -36,6 +40,10 @@ export default function Register() {
             alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
             return;
         }
+
+        dispatch(callRegisterAPI({
+            form: form
+        }));
 
         alert("회원가입이 완료되었습니다.");
     };
