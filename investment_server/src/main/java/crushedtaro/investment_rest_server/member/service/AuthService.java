@@ -71,4 +71,19 @@ public class AuthService {
 
         return tokenProvider.generateTokenDTO(member);
     }
+
+    public Object findid(MemberDTO memberDTO) {
+        log.info("[AuthService] findid() Start...");
+        log.info("[AuthService] MemberDTO {}", memberDTO);
+
+        Member member = memberRepository.findByMemberName(memberDTO.getMemberName());
+
+        if(member == null) {
+            log.info("[AuthService] 유저를 찾을 수 없습니다.");
+            throw new RuntimeException("유저를 찾을 수 없습니다.");
+        }
+
+        log.info("[AuthService] findid() End...");
+        return member;
+    }
 }

@@ -33,4 +33,11 @@ public class AuthController {
                 .body(new ResponseDTO(HttpStatus.OK, "로그인 성공", authService.login(memberDTO)));
     }
 
+    @PostMapping("/findid")
+    public ResponseEntity<ResponseDTO> findid(@RequestBody MemberDTO memberDTO) {
+        return ResponseEntity
+                .ok()
+                .body(new ResponseDTO(HttpStatus.OK, "아이디 찾기 성공", authService.findid(memberDTO)));
+    }
+
 }

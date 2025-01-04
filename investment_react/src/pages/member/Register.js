@@ -25,7 +25,7 @@ export default function Register() {
            ...form, 
             [e.target.name]: e.target.value 
         });
-        log(`[Register] onChangeHandler : `, form);
+        // log(`[Register] onChangeHandler : `, form);
     };
 
     const onClickSubmitHandler = () => {
