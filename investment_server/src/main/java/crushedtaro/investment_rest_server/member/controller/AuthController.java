@@ -40,4 +40,18 @@ public class AuthController {
                 .body(new ResponseDTO(HttpStatus.OK, "아이디 찾기 성공", authService.findid(memberDTO)));
     }
 
+    @PostMapping("/findpassword")
+    public ResponseEntity<ResponseDTO> findpassword(@RequestBody MemberDTO memberDTO) {
+        return ResponseEntity
+                .ok()
+                .body(new ResponseDTO(HttpStatus.OK, "비밀번호 찾기 성공", authService.findpassword(memberDTO)));
+    }
+
+    @PutMapping("/changepassword")
+    public ResponseEntity<ResponseDTO> changepassword(@RequestBody MemberDTO memberDTO) {
+        return ResponseEntity
+                .ok()
+                .body(new ResponseDTO(HttpStatus.OK, "비밀번호 변경 성공", authService.changepassword(memberDTO)));
+    }
+
 }

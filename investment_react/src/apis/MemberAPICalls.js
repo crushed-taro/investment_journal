@@ -1,8 +1,13 @@
-import { POST_REGISTER, POST_FINDID } from "../modules/MemberModule";
+import { 
+    POST_REGISTER, 
+    POST_FINDID,
+    POST_FINDPASSWORD, 
+    PUT_CHANGPASSWORD,
+    POST_LOGIN
+} from "../modules/MemberModule";
 
 export const callRegisterAPI = ({ form }) => {
     const requestURL = process.env.REACT_APP_API_REGISTER_URL;
-    console.log()
 
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
@@ -21,16 +26,16 @@ export const callRegisterAPI = ({ form }) => {
         console.log('[MemberAPICalls] callRegisterAPI RESULT : ', result);
 
 		if (result.status === 201) {
-            dispatch({ type: POST_REGISTER, payload: result });
+            alert("회원가입이 완료되었습니다.");
 		} else {
 			alert("등록된 이메일이 있습니다.");
 		}
+        dispatch({ type: POST_REGISTER, payload: result });
     };
 }
 
 export const callFindIdAPI = ({ form }) => {
     const requestURL = process.env.REACT_APP_API_FINDID_URL;
-    console.log()
 
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
@@ -47,9 +52,93 @@ export const callFindIdAPI = ({ form }) => {
         console.log('[MemberAPICalls] callFindIdAPI RESULT : ', result);
 
 		if (result.status === 200) {
-            dispatch({ type: POST_FINDID, payload: result.data });
+            alert("아이디를 찾았습니다.");
 		} else {
 			alert("가입된 ID가 없습니다.");
 		}
+        dispatch({ type: POST_FINDID, payload: result.data });
+    };
+}
+
+export const callFindPasswordAPI = ({ form }) => {
+    const requestURL = process.env.REACT_APP_API_FINDPASSWORD_URL;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+            },
+            body: JSON.stringify({
+                memberName: form.Name,
+                memberId: form.Id,
+            }),
+        }).then((response) => response.json());
+
+        console.log('[MemberAPICalls] callFindPasswordAPI RESULT : ', result);
+
+		if (result.status === 200) {
+            alert("비밀번호를 찾았습니다.");
+		} else {
+			alert("가입된 ID가 없습니다.");
+		}
+        dispatch({ type: POST_FINDPASSWORD, payload: result });
+    };
+}
+
+export const callChangePasswordAPI = ({ form }) => {
+    const requestURL = process.env.REACT_APP_API_CHANGEPASSWORD_URL;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+            },
+            body: JSON.stringify({
+                memberName: form.Name,
+                memberId: form.Id,
+                memberPassword: form.Password,
+            }),
+        }).then((response) => response.json());
+
+        console.log('[MemberAPICalls] callChangePasswordAPI RESULT : ', result);
+
+		if (result.status === 200) {
+            alert("비밀번호 변경이 완료되었습니다.");
+		} else {
+			alert("비밀번호 변경에 실패했습니다.");
+		}
+        dispatch({ type: PUT_CHANGPASSWORD, payload: result });
+    };
+}
+
+export const callLoginAPI = ({ form }) => {
+    const requestURL = process.env.REACT_APP_API_LOGIN_URL;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+            },
+            body: JSON.stringify({
+                memberId: form.Id,
+                memberPassword: form.Password,
+            }),
+        }).then((response) => response.json());
+
+        console.log('[MemberAPICalls] callLoginAPI RESULT : ', result);
+
+		if (result.status === 200) {
+            window.localStorage.setItem("accessToken", result.data.accessToken);
+            alert("로그인을 성공했습니다.");
+		} else {
+			alert("로그인을 실패했습니다.");
+		}
+        dispatch({ type: POST_LOGIN, payload: result });
     };
 }

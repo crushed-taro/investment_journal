@@ -2,7 +2,7 @@
 
 export default function Header() {
 
-    const isLogin = undefined;
+    const isLogin = window.localStorage.getItem('accessToken');
 
     function AfterLogin() {
         return (

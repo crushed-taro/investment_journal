@@ -1,47 +1,39 @@
 import { useEffect, useState } from "react";
 import { useLog } from "../../components/context/LogContext";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-import { callRegisterAPI } from "../../apis/MemberAPICalls";
+import { callChangePasswordAPI } from "../../apis/MemberAPICalls";
 
-export default function Register() {
+export default function ChangePassword() {
 
-    const log = useLog();
+    const location = useLocation();
+    const [ isPasswordMatch, setIsPasswordMatch ] = useState(false);
     const [ form, setForm ] = useState({
-        Name: "",
-        Id: "",
+        Name: location.state?.member.memberName,
+        Id: location.state?.member.memberId,
         Password: "",
         confirmPassword: ""
     });
-    const [ isPasswordMatch, setIsPasswordMatch ] = useState(false);
-    const navigate = useNavigate();
+    const log = useLog();
     const dispatch = useDispatch();
-    const member = useSelector(state => state.memberReducer);
+    const navigate = useNavigate();
 
     useEffect(() => {
         setIsPasswordMatch(form.Password === form.confirmPassword);
     }, [form.Password, form.confirmPassword]);
 
-    useEffect(() => {
-        log("[Register] useEffect : ", member);
-
-        if(member.status === 201) {
-            navigate("/", { replace: true })
-        }
-
-    }, [member]);
 
     const onChangeHandler = (e) => {
         setForm({
-           ...form, 
-            [e.target.name]: e.target.value 
+            ...form, 
+            [e.target.name]: e.target.value
         });
-        // log(`[Register] onChangeHandler : `, form);
+        // log(`[ChangePassword] onChangeHandler : `, form);
     };
 
     const onClickSubmitHandler = async() => {
-        log(`[Register] onClickSubmitHandler : `, form);
+        log(`[ChangePassword] onClickSubmitHandler : `, form);
 
         if (Object.values(form).some(value => !value)) {
             alert("모든 필수 입력값을 채워주세요.");
@@ -53,29 +45,19 @@ export default function Register() {
             return;
         }
 
-        await dispatch(callRegisterAPI({
+        await dispatch(callChangePasswordAPI({
             form: form
         }));
+
+        navigate("/", {replace: true});
 
     };
 
     return (
         <>
-            <h1>Register Page</h1>
+            <h1>ChangePassword Page</h1>
 
             <div>
-                <input 
-                    type="text"
-                    placeholder="Name"
-                    name="Name"
-                    onChange={onChangeHandler}
-                />
-                <input 
-                    type="text"
-                    placeholder="Id"
-                    name="Id"
-                    onChange={onChangeHandler}
-                />
                 <input 
                     type="password"
                     placeholder="Password"
@@ -102,8 +84,9 @@ export default function Register() {
                 <button
                     onClick={onClickSubmitHandler}
                 >
-                    회원가입
+                    비밀번호 변경
                 </button>
+
             </div>
 
         </>

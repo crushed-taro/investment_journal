@@ -1,26 +1,30 @@
 import { useLog } from "../../components/context/LogContext";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import { callFindIdAPI } from "../../apis/MemberAPICalls";
+import { callFindPasswordAPI } from "../../apis/MemberAPICalls";
 
-export default function FindId() {
+export default function FindPassword() {
 
     const dispatch = useDispatch();
-    const log = useLog();
     const [ form, setForm ] = useState({
-        Name: ""
+        Name: "",
+        Id: ""
     });
-    const [ isHaveId, setIsHaveId ] = useState([]);
+    const log = useLog();
+    const navigate = useNavigate();
     const member = useSelector(state => state.memberReducer);
 
     useEffect(() => {
-        log("[FindId] useEffect : ", member);
-        
-        if(Array.isArray(member)) {
-            setIsHaveId(member);
-        }
+        log("[FindPassword] useEffect : ", member);
 
+        if(member.status === 200) {
+            navigate("/change-password", {
+                replace: true,
+                state: { member: member.data }
+            });
+        }
     }, [member]);
 
     const onChangeHandler = (e) => {
@@ -28,28 +32,26 @@ export default function FindId() {
             ...form, 
             [e.target.name]: e.target.value
         });
-        log("[FindId] onChangeHandler", form);
+        log("[FindPassword] onChangeHandler", form);
     };
 
     const onClickHandler = () => {
-        log("[FindId] onClickHandler Called");
+        log("[FindPassword] onClickHandler Called");
 
         if(Object.values(form).some(value => !value)) {
             alert("모든 필수 입력값을 채워주세요.");
             return;
         }
 
-        dispatch(callFindIdAPI({
-            form: form
+        dispatch(callFindPasswordAPI({
+            form: form,
         }));
 
-        
     };
 
     return (
         <>
-            <h1>FindId Page</h1>
-        
+            <h1>FindPassword Page</h1>
             <div>
                 <input 
                     type="text"
@@ -57,21 +59,18 @@ export default function FindId() {
                     name="Name"
                     onChange={onChangeHandler}
                 />
+                <input 
+                    type="text"
+                    placeholder="Id"
+                    name="Id"
+                    onChange={onChangeHandler}
+                />
                 <button
                     onClick={onClickHandler}
                 >
-                    아이디 찾기
+                    비밀번호 찾기
                 </button>
             </div>
-            {
-                isHaveId.length > 0 &&
-                <div>
-                    <h2>아이디 찾기 결과</h2>
-                    {
-                        isHaveId.map((id, index) => <li key={index}>{id.memberId}</li>)
-                    }
-                </div>
-            }
         </>
     );
 }
