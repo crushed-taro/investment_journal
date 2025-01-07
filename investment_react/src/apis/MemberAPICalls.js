@@ -31,6 +31,7 @@ export const callRegisterAPI = ({ form }) => {
 			alert("등록된 이메일이 있습니다.");
 		}
         dispatch({ type: POST_REGISTER, payload: result });
+        return result;
     };
 }
 
@@ -57,6 +58,7 @@ export const callFindIdAPI = ({ form }) => {
 			alert("가입된 ID가 없습니다.");
 		}
         dispatch({ type: POST_FINDID, payload: result.data });
+        return result;
     };
 }
 
@@ -84,6 +86,7 @@ export const callFindPasswordAPI = ({ form }) => {
 			alert("가입된 ID가 없습니다.");
 		}
         dispatch({ type: POST_FINDPASSWORD, payload: result });
+        return result;
     };
 }
 
@@ -112,6 +115,7 @@ export const callChangePasswordAPI = ({ form }) => {
 			alert("비밀번호 변경에 실패했습니다.");
 		}
         dispatch({ type: PUT_CHANGPASSWORD, payload: result });
+        return result;
     };
 }
 
@@ -140,5 +144,6 @@ export const callLoginAPI = ({ form }) => {
 			alert("로그인을 실패했습니다.");
 		}
         dispatch({ type: POST_LOGIN, payload: result });
+        return result;
     };
 }

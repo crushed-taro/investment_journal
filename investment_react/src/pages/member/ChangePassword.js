@@ -23,7 +23,6 @@ export default function ChangePassword() {
         setIsPasswordMatch(form.Password === form.confirmPassword);
     }, [form.Password, form.confirmPassword]);
 
-
     const onChangeHandler = (e) => {
         setForm({
             ...form, 
@@ -45,12 +44,15 @@ export default function ChangePassword() {
             return;
         }
 
-        await dispatch(callChangePasswordAPI({
+        const member = await dispatch(callChangePasswordAPI({
             form: form
         }));
 
-        navigate("/", {replace: true});
-
+        if(member.status === 200) {
+            navigate("/", {
+                replace: true,
+            });
+        }
     };
 
     return (

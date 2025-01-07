@@ -1,6 +1,7 @@
 import { useLog } from "../../components/context/LogContext";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { callFindIdAPI } from "../../apis/MemberAPICalls";
 
@@ -12,6 +13,7 @@ export default function FindId() {
         Name: ""
     });
     const [ isHaveId, setIsHaveId ] = useState([]);
+    const navigate = useNavigate();
     const member = useSelector(state => state.memberReducer);
 
     useEffect(() => {
@@ -46,6 +48,11 @@ export default function FindId() {
         
     };
 
+    const onClickHomeHandler = () => {
+        log("[FindId] onClickHomeHandler Called");
+        navigate("/", { replace: true });
+    };
+
     return (
         <>
             <h1>FindId Page</h1>
@@ -72,6 +79,13 @@ export default function FindId() {
                     }
                 </div>
             }
+            <div>
+                <button
+                    onClick={onClickHomeHandler}
+                >
+                    HOME
+                </button>
+            </div>
         </>
     );
 }

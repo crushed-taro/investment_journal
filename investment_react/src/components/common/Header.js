@@ -1,18 +1,56 @@
-
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
 
     const isLogin = window.localStorage.getItem('accessToken');
+    const navigate = useNavigate();
+
+    const onClickLogoHandler = () => {
+        navigate("/", {replace: true});
+    };
+
+    const onClickLogoutHandler = () => {
+        window.localStorage.removeItem('accessToken');
+        navigate("/", {replace: true});
+    };
 
     function AfterLogin() {
         return (
-            <h2>로그인 되었습니다.</h2>           
+            <>
+                <div>
+                    <button
+                        onClick={onClickLogoHandler}
+                    >
+                        MAIN
+                    </button>
+                    <span>
+                        |
+                    </span>
+                    <button
+                        onClick={onClickLogoutHandler}
+                    >
+                        로그아웃
+                    </button>
+                </div>
+            </>
         );
     }
 
     function BeforeLogin() {
         return (
-            <h2>로그아웃 되었습니다.</h2>           
+            <>
+                <div>
+                    <span>로그인이 필요합니다.</span>           
+                    <span>
+                        |
+                    </span>
+                    <button
+                        onClick={onClickLogoHandler}
+                    >
+                        MAIN
+                    </button>
+                </div>
+            </>
         );
     }
 

@@ -14,18 +14,6 @@ export default function FindPassword() {
     });
     const log = useLog();
     const navigate = useNavigate();
-    const member = useSelector(state => state.memberReducer);
-
-    useEffect(() => {
-        log("[FindPassword] useEffect : ", member);
-
-        if(member.status === 200) {
-            navigate("/change-password", {
-                replace: true,
-                state: { member: member.data }
-            });
-        }
-    }, [member]);
 
     const onChangeHandler = (e) => {
         setForm({
@@ -35,7 +23,7 @@ export default function FindPassword() {
         log("[FindPassword] onChangeHandler", form);
     };
 
-    const onClickHandler = () => {
+    const onClickHandler = async() => {
         log("[FindPassword] onClickHandler Called");
 
         if(Object.values(form).some(value => !value)) {
@@ -43,9 +31,16 @@ export default function FindPassword() {
             return;
         }
 
-        dispatch(callFindPasswordAPI({
+        const member = await dispatch(callFindPasswordAPI({
             form: form,
         }));
+
+        if(member.status === 200) {
+            navigate("/change-password", {
+                replace: true,
+                state: { member: member.data }
+            });
+        }
 
     };
 

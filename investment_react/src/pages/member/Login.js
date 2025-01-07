@@ -10,17 +10,17 @@ export default function Login() {
     const [ form, setForm ] = useState();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const member = useSelector(state => state.memberReducer);
+    // const member = useSelector(state => state.memberReducer);
 
-    useEffect(() => {
-        log("[Login] useEffect : ", member);
+    // useEffect(() => {
+    //     log("[Login] useEffect : ", member);
 
-        if(member.status === 200) {
-            navigate("/main", {
-                replace: true,
-            });
-        }
-    }, [member]);
+    //     if(member.status === 200) {
+    //         navigate("/main", {
+    //             replace: true,
+    //         });
+    //     }
+    // }, [member]);
 
 
     const onChangeHandler = (e) => {
@@ -31,7 +31,7 @@ export default function Login() {
         // log(`onChangeHandler : `, form);
     }
 
-    const onClickLoginHandler = () => {
+    const onClickLoginHandler = async() => {
         log("[Login] onClickLoginHandler Called");
 
         if(Object.values(form).some(value => !value)) {
@@ -39,10 +39,15 @@ export default function Login() {
             return;
         }
 
-        dispatch(callLoginAPI({
+        const member = await dispatch(callLoginAPI({
             form: form,
         }))
 
+        if(member.status === 200) {
+            navigate("/main", {
+                replace: true,
+            });
+        }
     }
 
     const onClickSignupHandler = () => {

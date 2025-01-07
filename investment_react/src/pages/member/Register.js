@@ -17,20 +17,10 @@ export default function Register() {
     const [ isPasswordMatch, setIsPasswordMatch ] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const member = useSelector(state => state.memberReducer);
 
     useEffect(() => {
         setIsPasswordMatch(form.Password === form.confirmPassword);
     }, [form.Password, form.confirmPassword]);
-
-    useEffect(() => {
-        log("[Register] useEffect : ", member);
-
-        if(member.status === 201) {
-            navigate("/", { replace: true })
-        }
-
-    }, [member]);
 
     const onChangeHandler = (e) => {
         setForm({
@@ -53,9 +43,13 @@ export default function Register() {
             return;
         }
 
-        await dispatch(callRegisterAPI({
+        const member = await dispatch(callRegisterAPI({
             form: form
         }));
+
+        if(member.status === 201) {
+            navigate("/", { replace: true })
+        }
 
     };
 

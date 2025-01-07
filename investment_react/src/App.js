@@ -6,6 +6,9 @@ import FindId from "./pages/member/FindId";
 import FindPassword from "./pages/member/FindPassword";
 import ChangePassword from "./pages/member/ChangePassword";
 
+import Main from "./pages/Main";
+import AddInvestmentJournal from "./pages/investment/AddInvestmentJournal";
+
 import Error from "./pages/Error";
 
 
@@ -21,7 +24,8 @@ function App() {
         <Route path="/change-password" element={ <ChangePassword/> } />
 
         <Route path="/main" element={ <Layout/> }>
-
+          <Route index element={ <Main />} />
+          <Route path="addInvestmentJournal" element={ <AddInvestmentJournal />} />
         </Route>
 
         <Route path="*" element={ <Error/> } />
