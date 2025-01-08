@@ -4,17 +4,27 @@ public class TokenDTO {
 
     private String grantType;
     private String memberName;
+    private Integer memberCode;
     private String accessToken;
     private Long accessTokenExpiresIn;
 
-    public TokenDTO(String grantType, String memberName, String accessToken, Long accessTokenExpiresIn) {
+    public TokenDTO(String grantType, String memberName, Integer memberCode, String accessToken, Long accessTokenExpiresIn) {
         this.grantType = grantType;
         this.memberName = memberName;
+        this.memberCode = memberCode;
         this.accessToken = accessToken;
         this.accessTokenExpiresIn = accessTokenExpiresIn;
     }
 
     public TokenDTO() {
+    }
+
+    public Integer getMemberCode() {
+        return memberCode;
+    }
+
+    public void setMemberCode(Integer memberCode) {
+        this.memberCode = memberCode;
     }
 
     public String getGrantType() {
@@ -54,6 +64,7 @@ public class TokenDTO {
         return "TokenDTO{" +
                 "grantType='" + grantType + '\'' +
                 ", memberName='" + memberName + '\'' +
+                ", memberCode=" + memberCode +
                 ", accessToken='" + accessToken + '\'' +
                 ", accessTokenExpiresIn=" + accessTokenExpiresIn +
                 '}';

@@ -139,6 +139,7 @@ export const callLoginAPI = ({ form }) => {
 
 		if (result.status === 200) {
             window.localStorage.setItem("accessToken", result.data.accessToken);
+            window.localStorage.setItem("code", result.data.memberCode);
             alert("로그인을 성공했습니다.");
 		} else {
 			alert("로그인을 실패했습니다.");

@@ -1,0 +1,36 @@
+import {
+    POST_INVEST_REGISTER
+} from "../modules/InvestmentJournalModule";
+
+export const callInvestmentJournalRegistAPI = ({ form }) => {
+    const requestURL = process.env.REACT_APP_API_INVEST_REGISTER_URL;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Accept: '*/*',
+                Authorization:
+                    'Bearer ' + window.localStorage.getItem('accessToken')
+            },
+            body: JSON.stringify({
+                investmentTitle: form.investmentJournalTitle,
+                investmentDate: form.investmentJournalDate,
+                investmentContents: form.investmentJournalContents,
+            }),
+        }).then((response) => response.json());
+
+        console.log('[InvestmentJournalAPICalls] callInvestmentJournalRegistAPI RESULT : ', result);
+
+        if (result.status === 201) {
+            console.log("자산 등록이 완료되었습니다.");
+        } else {
+            console.error("자산 등록에 실패했습니다.");
+        }
+
+        dispatch({ type: POST_INVEST_REGISTER, payload: result });
+        return result;
+
+    };
+}

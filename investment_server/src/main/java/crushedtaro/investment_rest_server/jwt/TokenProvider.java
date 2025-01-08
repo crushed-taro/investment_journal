@@ -42,11 +42,11 @@ public class TokenProvider {
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
-        System.out.println("조립된 accessToken 확인 = " + accessToken);
+        log.info("[TokenProvider] accessToken Check = " + accessToken);
 
         log.info("[TokenProvider] generateTokenDTO() End");
 
-        return new TokenDTO(BEARER_TYPE, member.getMemberName(), accessToken, accessTokenExpiresIn.getTime());
+        return new TokenDTO(BEARER_TYPE, member.getMemberName(), member.getMemberCode(), accessToken, accessTokenExpiresIn.getTime());
     }
 
 }
