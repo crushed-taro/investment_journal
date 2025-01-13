@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class InvestmentService {
 
@@ -34,6 +36,14 @@ public class InvestmentService {
 
         log.info("[InvestmentService] Investment Insert Result {}",
                 (result != null) ? "투자일지 추가 성공" : "투자일지 추가 실패");
+
+        Optional<Long> maxInvestmentCode = investmentRepository.findMaxInvestmentCode();
+        if (maxInvestmentCode.isPresent()) {
+            log.info("[InvestmentService] Max InvestmentCode: {}", maxInvestmentCode.get());
+            investmentDTO.setInvestmentCode(Math.toIntExact(maxInvestmentCode.get()));
+        } else {
+            log.info("[InvestmentService] No investment records found.");
+        }
 
         log.info("[InvestmentService] register() End...");
         return investmentDTO;

@@ -18,7 +18,7 @@ export const callInvestmentJournalRegistAPI = ({ form }) => {
                 investmentTitle: form.investmentJournalTitle,
                 investmentDate: form.investmentJournalDate,
                 investmentContents: form.investmentJournalContents,
-                memberCode: window.localStorage.getItem('code'),
+                memberCode: window.localStorage.getItem("code"),
             }),
         }).then((response) => response.json());
 

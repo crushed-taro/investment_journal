@@ -89,7 +89,7 @@ export default function AddInvestmentJournal() {
         }))
 
         log("result : ", result);
-        await dispatch(callInvestmentJournalDetailRegistAPI(result.id, inputs))
+        await dispatch(callInvestmentJournalDetailRegistAPI(result.data.investmentCode, inputs))
 
         alert("투자일지 추가를 성공했습니다.");
 
