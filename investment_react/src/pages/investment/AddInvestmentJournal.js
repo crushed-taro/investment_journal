@@ -108,13 +108,27 @@ export default function AddInvestmentJournal() {
             <h1>투자일지 추가 화면</h1>
 
             <label> 투자 날짜 : </label>
-            <input />
+            <input 
+                type="date"
+                name="investmentJournalDate"
+                onChange={onChangeHandler}
+            />
             <br />
             <label>투자 일지 제목 : </label>
-            <input />
+            <input 
+                type="text"
+                name="investmentJournalTitle"
+                placeholder="investmentJournalTitle"
+                onChange={onChangeHandler}
+            />
             <br />
             <label>투자 일지 내용 : </label>
-            <input />
+            <input 
+                type="text"
+                name="investmentJournalContents"
+                placeholder="investmentJournalContents"
+                onChange={onChangeHandler}
+            />
 
             <div>
                 <button

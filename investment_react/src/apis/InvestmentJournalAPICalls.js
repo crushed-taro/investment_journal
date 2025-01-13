@@ -5,14 +5,14 @@ import {
 export const callInvestmentJournalRegistAPI = ({ form }) => {
     const requestURL = process.env.REACT_APP_API_INVEST_REGISTER_URL;
 
+    console.log('[InvestmentJournalAPICalls] form RESULT : ', form);
+
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/json',
                 Accept: '*/*',
-                Authorization:
-                    'Bearer ' + window.localStorage.getItem('accessToken')
             },
             body: JSON.stringify({
                 investmentTitle: form.investmentJournalTitle,
