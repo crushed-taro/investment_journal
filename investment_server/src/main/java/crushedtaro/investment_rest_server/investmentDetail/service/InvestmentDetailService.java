@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class InvestmentDetailService {
 
@@ -39,5 +41,15 @@ public class InvestmentDetailService {
 
         log.info("[InvestmentDetailService] register() End...");
         return investmentDetailDTO;
+    }
+
+    public Object list(int investmentCode) {
+        log.info("[InvestmentDetailService] list() Start...");
+        log.info("[InvestmentDetailService] investmentCode {}", investmentCode);
+
+        List<InvestmentDetail> investmentsDetail = investmentDetailRepository.findByInvestmentCode(investmentCode);
+
+        log.info("[InvestmentDetailService] list() End...");
+        return investmentsDetail;
     }
 }

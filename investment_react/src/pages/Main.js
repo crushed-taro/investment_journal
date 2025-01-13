@@ -22,6 +22,10 @@ export default function Main() {
         navigate("/main/addInvestmentJournal", { replace: true });
     };
 
+    const onClickInvestmentJournalHandler = (investmentJournal) => {
+        navigate(`/main/investmentJournalDetail/${investmentJournal.investmentCode}`, { replace: false });
+    };
+
     function AfterLogin() {
         return (
             <>
@@ -34,7 +38,10 @@ export default function Main() {
                 {
                     investmentJournalList && investmentJournalList.map(
                         (investmentJournal, index) => (
-                            <div key={index}>
+                            <div 
+                                onClick={() => onClickInvestmentJournalHandler(investmentJournal)}
+                                key={index}
+                            >
                                 <h3>{investmentJournal.investmentTitle}</h3>
                                 <p>{investmentJournal.investmentDate}</p>
                                 <p>{investmentJournal.investmentContents}</p>

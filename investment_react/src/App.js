@@ -8,6 +8,7 @@ import ChangePassword from "./pages/member/ChangePassword";
 
 import Main from "./pages/Main";
 import AddInvestmentJournal from "./pages/investment/AddInvestmentJournal";
+import InvestmentJournalDetail from "./pages/investment/investmentJournalDetail";
 
 import Error from "./pages/Error";
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/main" element={ <Layout/> }>
           <Route index element={ <Main />} />
           <Route path="addInvestmentJournal" element={ <AddInvestmentJournal />} />
+          <Route path="investmentJournalDetail/:investmentCode" element={ <InvestmentJournalDetail />} />
         </Route>
 
         <Route path="*" element={ <Error/> } />
