@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,5 +48,20 @@ public class InvestmentService {
 
         log.info("[InvestmentService] register() End...");
         return investmentDTO;
+    }
+
+    public Object list(int memberCode) {
+        log.info("[InvestmentService] list() Start...");
+        log.info("[InvestmentService] memberCode {}", memberCode);
+
+        List<Investment> investments = investmentRepository.findByMemberCode(memberCode);
+
+//        if(investments == null) {
+//            log.info("[InvestmentService] 투자일지를 찾을 수 없습니다.");
+//            throw new RuntimeException("투자일지를 찾을 수 없습니다.");
+//        }
+
+        log.info("[InvestmentService] list() End...");
+        return investments;
     }
 }

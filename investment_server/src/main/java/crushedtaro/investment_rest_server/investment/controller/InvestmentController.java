@@ -24,4 +24,9 @@ public class InvestmentController {
     public ResponseEntity<ResponseDTO> register(@RequestBody InvestmentDTO investmentDTO) {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.CREATED, "투자일지 등록 성공", investmentService.register(investmentDTO)));
     }
+
+    @GetMapping("/list/{memberCode}")
+    public ResponseEntity<ResponseDTO> list(@PathVariable int memberCode) {
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "투자일지 찾기 성공", investmentService.list(memberCode)));
+    }
 }

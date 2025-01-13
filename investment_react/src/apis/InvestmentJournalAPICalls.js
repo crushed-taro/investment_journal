@@ -1,5 +1,6 @@
 import {
-    POST_INVEST_REGISTER
+    POST_INVEST_REGISTER,
+    GET_INVEST
 } from "../modules/InvestmentJournalModule";
 
 export const callInvestmentJournalRegistAPI = ({ form }) => {
@@ -31,6 +32,37 @@ export const callInvestmentJournalRegistAPI = ({ form }) => {
         }
 
         dispatch({ type: POST_INVEST_REGISTER, payload: result });
+        return result;
+
+    };
+}
+
+export const callInvestmentJournalListAPI = (code) => {
+    const requestURL = `${process.env.REACT_APP_API_INVEST_LIST_URL}/${code}`;
+
+    console.log('[InvestmentJournalAPICalls] callInvestmentJournalListAPI : ', code);
+    console.log('[InvestmentJournalAPICalls] callInvestmentJournalListAPI URL : ', requestURL);
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: '*/*',
+				Authorization:
+					'Bearer ' + window.localStorage.getItem('accessToken')
+			}
+		}).then((response) => response.json());
+
+        console.log('[InvestmentJournalAPICalls] callInvestmentJournalListAPI RESULT : ', result);
+
+        if (result.status === 201) {
+            console.log("자산 불러오기를 완료되었습니다.");
+        } else {
+            console.error("자산 불러오기를 실패했습니다.");
+        }
+
+        dispatch({ type: GET_INVEST, payload: result });
         return result;
 
     };

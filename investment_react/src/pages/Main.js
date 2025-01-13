@@ -1,9 +1,22 @@
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+import { callInvestmentJournalListAPI } from "../apis/InvestmentJournalAPICalls";
 
 export default function Main() {
 
     const isLogin = window.localStorage.getItem('accessToken');
+    const code = window.localStorage.getItem('code');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const investmentJournalList = useSelector(state => state.investjournalReducer.data);
+    
+    console.log("investment journal list : ", investmentJournalList);
+
+    useEffect(() => {
+        dispatch(callInvestmentJournalListAPI(code));
+    }, []);
 
     const onClickAddInvestmentJournalHandler = () => {
         navigate("/main/addInvestmentJournal", { replace: true });
@@ -18,6 +31,17 @@ export default function Main() {
                 >
                     투자일지 추가
                 </button>
+                {
+                    investmentJournalList && investmentJournalList.map(
+                        (investmentJournal, index) => (
+                            <div key={index}>
+                                <h3>{investmentJournal.investmentTitle}</h3>
+                                <p>{investmentJournal.investmentDate}</p>
+                                <p>{investmentJournal.investmentContents}</p>
+                            </div>
+                        )
+                    )
+                }
             </>
         );
     }
