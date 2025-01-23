@@ -29,4 +29,9 @@ public class InvestmentController {
     public ResponseEntity<ResponseDTO> list(@PathVariable int memberCode) {
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "투자일지 찾기 성공", investmentService.list(memberCode)));
     }
+
+    @DeleteMapping("/delete/{investmentCode}")
+    public ResponseEntity<ResponseDTO> delete(@PathVariable int investmentCode) {
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "투자일지 삭제 성공", investmentService.delete(investmentCode)));
+    }
 }

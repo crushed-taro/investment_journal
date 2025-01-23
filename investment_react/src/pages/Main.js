@@ -2,7 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import { callInvestmentJournalListAPI } from "../apis/InvestmentJournalAPICalls";
+import { 
+    callInvestmentJournalListAPI,
+    callDeleteInvestmentJournalAPI,
+ } from "../apis/InvestmentJournalAPICalls";
 
 export default function Main() {
 
@@ -10,7 +13,7 @@ export default function Main() {
     const code = window.localStorage.getItem('code');
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const investmentJournalList = useSelector(state => state.investjournalReducer.data);
+    const investmentJournalList = useSelector(state => state.investjournalReducer.data || []);
     
     console.log("investment journal list : ", investmentJournalList);
 
@@ -26,6 +29,12 @@ export default function Main() {
         navigate(`/main/investmentJournalDetail/${investmentJournal.investmentCode}`, { replace: false });
     };
 
+    const onClickDeleteInvestmentJournalHandler = async(e) => {
+        console.log("onClickDeleteInvestmentJournalHandler : ", e);
+        await dispatch(callDeleteInvestmentJournalAPI(e));
+        await dispatch(callInvestmentJournalListAPI(e.investmentCode));
+    };
+
     function AfterLogin() {
         return (
             <>
@@ -38,13 +47,24 @@ export default function Main() {
                 {
                     investmentJournalList && investmentJournalList.map(
                         (investmentJournal, index) => (
-                            <div 
-                                onClick={() => onClickInvestmentJournalHandler(investmentJournal)}
-                                key={index}
-                            >
-                                <h3>{investmentJournal.investmentTitle}</h3>
-                                <p>{investmentJournal.investmentDate}</p>
-                                <p>{investmentJournal.investmentContents}</p>
+                            <div>
+                                <div>
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            onClickDeleteInvestmentJournalHandler(investmentJournal)}}
+                                    >
+                                        삭제
+                                    </button>
+                                </div>
+                                <div 
+                                    onClick={() => onClickInvestmentJournalHandler(investmentJournal)}
+                                    key={index}
+                                >
+                                    <h3>{investmentJournal.investmentTitle}</h3>
+                                    <p>{investmentJournal.investmentDate}</p>
+                                    <p>{investmentJournal.investmentContents}</p>
+                                </div>
                             </div>
                         )
                     )

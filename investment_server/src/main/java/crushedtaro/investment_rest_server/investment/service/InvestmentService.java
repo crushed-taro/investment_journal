@@ -64,4 +64,21 @@ public class InvestmentService {
         log.info("[InvestmentService] list() End...");
         return investments;
     }
+
+    @Transactional
+    public Object delete(int investmentCode) {
+        log.info("[InvestmentService] delete() Start...");
+        log.info("[InvestmentService] investmentCode {}", investmentCode);
+
+        int result = 0;
+
+        try {
+            investmentRepository.deleteById(investmentCode);
+
+            result = 1;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return (result > 0) ? "투자일지 삭제 성공" : "투자일지 삭제 실패";
+    }
 }

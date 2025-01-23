@@ -67,3 +67,26 @@ export const callInvestmentJournalListAPI = (code) => {
 
     };
 }
+export const callDeleteInvestmentJournalAPI = ( form ) => {
+    console.log('[InvestmentJournalAPICalls] form RESULT : ', form);
+    const requestURL = `${process.env.REACT_APP_API_INVEST_DELETE_URL}/${form.investmentCode}`;
+
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+				Authorization:
+					'Bearer ' + window.localStorage.getItem('accessToken')
+            },
+        }).then((response) => response.json());
+
+        console.log('[InvestmentJournalAPICalls] callDeleteInvestmentJournalAPI RESULT : ', result);
+
+        dispatch({ type: POST_INVEST_REGISTER, payload: result });
+        return result;
+
+    };
+}
