@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { 
     callInvestmentJournalListAPI,
     callDeleteInvestmentJournalAPI,
  } from "../apis/InvestmentJournalAPICalls";
+import './Main.css';  
 
 export default function Main() {
 
@@ -15,8 +16,6 @@ export default function Main() {
     const dispatch = useDispatch();
     const investmentJournalList = useSelector(state => state.investjournalReducer.data || []);
     
-    console.log("investment journal list : ", investmentJournalList);
-
     useEffect(() => {
         dispatch(callInvestmentJournalListAPI(code));
     }, []);
@@ -29,55 +28,54 @@ export default function Main() {
         navigate(`/main/investmentJournalDetail/${investmentJournal.investmentCode}`, { replace: false });
     };
 
-    const onClickDeleteInvestmentJournalHandler = async(e) => {
-        console.log("onClickDeleteInvestmentJournalHandler : ", e);
-        await dispatch(callDeleteInvestmentJournalAPI(e));
-        await dispatch(callInvestmentJournalListAPI(e.investmentCode));
+    const onClickDeleteInvestmentJournalHandler = async (investmentJournal) => {
+        await dispatch(callDeleteInvestmentJournalAPI(investmentJournal));
+        await dispatch(callInvestmentJournalListAPI(code));
     };
 
     function AfterLogin() {
         return (
             <>
                 <h2>투자일지 목록입니다.</h2>
-                <button
-                    onClick={onClickAddInvestmentJournalHandler}
-                >
-                    투자일지 추가
-                </button>
-                {
-                    investmentJournalList && investmentJournalList.map(
-                        (investmentJournal, index) => (
-                            <div>
-                                <div>
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            onClickDeleteInvestmentJournalHandler(investmentJournal)}}
-                                    >
-                                        삭제
-                                    </button>
-                                </div>
-                                <div 
-                                    onClick={() => onClickInvestmentJournalHandler(investmentJournal)}
-                                    key={index}
-                                >
+                <div className="container">
+                    <button
+                        className="btn btn-primary"
+                        onClick={onClickAddInvestmentJournalHandler}
+                    >
+                        투자일지 추가
+                    </button>
+                    {
+                        investmentJournalList && investmentJournalList.map(
+                            (investmentJournal, index) => (
+                                <div key={index} className="investment-journal-card" onClick={() => onClickInvestmentJournalHandler(investmentJournal)}>
+                                    <div className="d-flex justify-content-between">
+                                        <button
+                                            className="delete-btn"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                onClickDeleteInvestmentJournalHandler(investmentJournal);
+                                            }}
+                                        >
+                                            삭제
+                                        </button>
+                                    </div>
                                     <h3>{investmentJournal.investmentTitle}</h3>
                                     <p>{investmentJournal.investmentDate}</p>
                                     <p>{investmentJournal.investmentContents}</p>
                                 </div>
-                            </div>
+                            )
                         )
-                    )
-                }
+                    }
+                </div>
             </>
         );
     }
 
     function BeforeLogin() {
         return (
-            <>
+            <div className="container text-center">
                 <h1>투자일지 목록을 불러올 수 없습니다.</h1>           
-            </>
+            </div>
         );
     }
 

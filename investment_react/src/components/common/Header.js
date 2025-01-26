@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import './Header.css';  
 
 export default function Header() {
 
@@ -6,7 +7,7 @@ export default function Header() {
     const navigate = useNavigate();
 
     const onClickLogoHandler = () => {
-        navigate("/", {replace: true});
+        navigate("/main", {replace: true});
     };
 
     const onClickLogoutHandler = () => {
@@ -18,14 +19,6 @@ export default function Header() {
         return (
             <>
                 <div>
-                    <button
-                        onClick={onClickLogoHandler}
-                    >
-                        MAIN
-                    </button>
-                    <span>
-                        |
-                    </span>
                     <button
                         onClick={onClickLogoutHandler}
                     >
@@ -40,14 +33,10 @@ export default function Header() {
         return (
             <>
                 <div>
-                    <span>로그인이 필요합니다.</span>           
-                    <span>
-                        |
-                    </span>
                     <button
-                        onClick={onClickLogoHandler}
+                        onClick={onClickLogoutHandler}
                     >
-                        MAIN
+                        로그인
                     </button>
                 </div>
             </>
@@ -56,16 +45,26 @@ export default function Header() {
 
     return (
         <>
-            {
-                isLogin == null || isLogin === undefined ? 
-                (
-                    <BeforeLogin/>
-                )
-                :
-                (
-                    <AfterLogin/>
-                )
-            }
+            <div className="headerContainer">
+                <div className="logoContainer">
+                    <a href="" className="logo" onClick={onClickLogoHandler}>
+                        <img
+                            src="/images/HomeLogo.jpeg"
+                            alt="logo"
+                        />
+                    </a>
+                </div>
+                {
+                    isLogin == null || isLogin === undefined ? 
+                    (
+                        <BeforeLogin/>
+                    )
+                    :
+                    (
+                        <AfterLogin/>
+                    )
+                }
+            </div>
         </>
     );
 

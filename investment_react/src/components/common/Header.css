@@ -1,0 +1,17 @@
+.logo img {
+    height: 100px;
+    width: auto;
+}
+
+.logoContainer {
+    flex: 0 0 auto;
+}
+
+.headerContainer {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%; 
+    padding: 10px 20px; 
+    box-sizing: border-box; 
+}
